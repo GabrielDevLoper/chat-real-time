@@ -1,8 +1,13 @@
 import express from "express";
 import http from "http";
+import { Server} from "socket.io";
 
 const app = express();
 
+//Servidor para rotas padrão protocolo http
 const serverHttp = http.createServer(app);
 
-app.listen(3333, () => console.log("Servidor está rodando na porta 3333"));
+//Servidor para utilizar o socket
+const io = new Server(serverHttp);
+
+export { serverHttp, io };
