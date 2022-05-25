@@ -19,7 +19,7 @@ const messages: Message[] = [];
 
 io.on("connection", socket => {
     
-    socket.on('select_room', response => {
+    socket.on('select_room', (response, callback) => {
         const { room, username } = response;
 
         //conectando em alguma sala
@@ -37,7 +37,8 @@ io.on("connection", socket => {
             });
         }
         
-        console.log(users);
+       const messagesRoom = getMessagesRoom(room);
+       callback(messagesRoom);
     });
 
     socket.on("message", response => {
@@ -56,3 +57,10 @@ io.on("connection", socket => {
         io.to(room).emit("message", message);
     });
 });
+
+
+function getMessagesRoom(room: string){
+    const messagesRoom = messages.filter(message => message.room === room);
+
+    return messagesRoom;
+}
