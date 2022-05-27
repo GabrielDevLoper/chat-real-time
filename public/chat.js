@@ -6,6 +6,8 @@ const room = urlSearch.get('select_room');
 
 //emit => emitir alguma informação
 //on => escutando alguma informação
+
+// carregando mensagens da sala
 socket.emit('select_room', {
     username,
     room
@@ -16,7 +18,7 @@ socket.emit('select_room', {
 const usernameDiv = document.getElementById("username");
 usernameDiv.innerHTML = `Olá ${username} - Você está na sala ${room.toUpperCase()}`;
 
-//Enviando menssagem e emitindo para o socket
+//Enviando menssagem ao pressionar enter e emitindo para o socket
 document.getElementById("message_input").addEventListener("keypress" , (event) => {
     if(event.key === "Enter"){
         const message = event.target.value;
@@ -33,6 +35,19 @@ document.getElementById("message_input").addEventListener("keypress" , (event) =
     }
 });
 
+// ação do botão enviar e emitindo para o socket
+document.getElementById("button_submit").addEventListener("click" , (event) => {
+        const data = {
+            room,
+            username,
+            message: document.getElementById("message_input").value
+        }
+
+        socket.emit("message", data);
+
+        document.getElementById("message_input").value = "";
+});
+
 //Escutando as menssagens enviadas no metodo acima e adicionando na area das conversas.
 socket.on("message", response => {
     createMessage(response);
@@ -44,10 +59,11 @@ function createMessage(response){
     const messageDiv = document.getElementById("messages");
     messageDiv.innerHTML += `
     <div class="new_message">
-                <label for="" class="form-label">
-                    <strong>${username}</strong>: <span> ${message} - ${dayjs(createdAt).format("DD/MM HH:mm")}</span>
-                </label>
-            </div>
+        <label for="" class="form-label">
+            <strong>${username}</strong>: <span> ${message} - ${dayjs(createdAt).format("DD/MM HH:mm")}</span>
+        </label>
+    </div>
+            
     `;
 }
 
