@@ -36,7 +36,7 @@ document.getElementById("message_input").addEventListener("keypress" , (event) =
 });
 
 // ação do botão enviar e emitindo para o socket
-document.getElementById("button_submit").addEventListener("click" , (event) => {
+document.getElementById("button_submit").addEventListener("click" , () => {
         const data = {
             room,
             username,
@@ -51,6 +51,16 @@ document.getElementById("button_submit").addEventListener("click" , (event) => {
 //Escutando as menssagens enviadas no metodo acima e adicionando na area das conversas.
 socket.on("message", response => {
     createMessage(response);
+});
+
+document.getElementById("logout").addEventListener("click" , () => {
+    const data = {
+        room,
+        username,
+        message: "Saiu da sala"
+    }
+
+    socket.emit("message", data);
 });
 
 function createMessage(response){
