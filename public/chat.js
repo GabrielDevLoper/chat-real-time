@@ -50,8 +50,6 @@ document.getElementById("button_submit").addEventListener("click" , () => {
 
 //Escutando as menssagens enviadas no metodo acima e adicionando na area das conversas.
 socket.on("message", response => {
-    console.log(response);
-
     createMessage(response);
 });
 
