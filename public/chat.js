@@ -50,6 +50,8 @@ document.getElementById("button_submit").addEventListener("click" , () => {
 
 //Escutando as menssagens enviadas no metodo acima e adicionando na area das conversas.
 socket.on("message", response => {
+    console.log(response);
+
     createMessage(response);
 });
 
@@ -64,16 +66,15 @@ document.getElementById("logout").addEventListener("click" , () => {
 });
 
 function createMessage(response){
-    const { username, message, createdAt } = response;
+    const { username, message, createdAt, color } = response;
 
     const messageDiv = document.getElementById("messages");
     messageDiv.innerHTML += `
-    <div class="new_message">
-        <label for="" class="form-label">
-            <strong>${username}</strong>: <span> ${message} - ${dayjs(createdAt).format("DD/MM HH:mm")}</span>
-        </label>
-    </div>
-            
+        <div class="new_message">
+            <label for="" class="form-label">
+                <strong style="color: #${color}">${username}</strong>: <span> ${message} - ${dayjs(createdAt).format("DD/MM HH:mm")}</span>
+            </label>
+        </div>    
     `;
 }
 

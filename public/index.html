@@ -20,8 +20,9 @@
             <div class="rounded-md shadow-sm -space-y-px">
               <div>
                 <label for="email-address" class="sr-only">Email address</label>
-                <select class="px-4 py-3 rounded-full w-full" name="select_room" id="select_room">
-                    <option value="-1">Selecione a sala que deseja entrar</option>
+                <select class="px-4 py-3 rounded-full w-full" name="select_room" id="select_room" placeholder="teste">
+                    <!-- <option value="-1">Selecione a sala que deseja entrar</option> -->
+                    <option value="" disabled selected hidden>Selecione a sala que deseja entrar</option>
                     <option value="node">Node</option>
                     <option value="react">React</option>
                     <option value="java">Java</option>
@@ -33,9 +34,6 @@
                 <input name="username" type="text" required class="appearance-none px-4 py-3 rounded-full w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 " placeholder="Insira seu nome de usuário">
               </div>
             </div>
-      
-          
-      
             <div>
               <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                 <span class="absolute left-0 inset-y-0 flex items-center pl-3">
@@ -51,8 +49,5 @@
         </div>
     </div>
   </div>
-
-      
-
 </body>
 </html>

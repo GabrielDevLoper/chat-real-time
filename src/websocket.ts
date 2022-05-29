@@ -4,6 +4,7 @@ interface RoomUser {
     socket_id: string;
     username: string;
     room: string;
+    userColor: string;
 }
 
 interface Message {
@@ -11,12 +12,15 @@ interface Message {
     room: string;
     message: string;
     createdAt: Date;
+    color: string;
 }
 
 const users: RoomUser[] = [];
 
 const messages: Message[] = [];
 
+//emit => emitir alguma informação
+//on => escutando alguma informação
 io.on("connection", socket => {
     
     socket.on('select_room', (response, callback) => {
@@ -33,7 +37,8 @@ io.on("connection", socket => {
             users.push({
                 room,
                 username,
-                socket_id: socket.id
+                socket_id: socket.id,
+                userColor: Math.floor(Math.random()*16777215).toString(16)
             });
         }
         
@@ -44,12 +49,15 @@ io.on("connection", socket => {
     socket.on("message", response => {
         const { room, username, message: text } = response;
 
+        const userColor = users.find(user => user.username === username)
+
         //Salvar as mensagens
         const message: Message = {
             room,
             username,
             message: text,
-            createdAt: new Date()
+            createdAt: new Date(),
+            color: userColor ? userColor.userColor : 'black'
         }
 
         messages.push(message);
