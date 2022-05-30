@@ -17,7 +17,7 @@ interface Message {
 
 const users: RoomUser[] = [];
 
-const messages: Message[] = [];
+let messages: Message[] = [];
 
 //emit => emitir alguma informação
 //on => escutando alguma informação
@@ -49,20 +49,24 @@ io.on("connection", socket => {
     socket.on("message", response => {
         const { room, username, message: text } = response;
 
-        const userColor = users.find(user => user.username === username)
+        if(text === "/clear-all"){
+            messages = [];
+        }else {
+            const userColor = users.find(user => user.username === username)
 
-        //Salvar as mensagens
-        const message: Message = {
-            room,
-            username,
-            message: text,
-            createdAt: new Date(),
-            color: userColor ? userColor.userColor : 'black'
+            //Salvar as mensagens
+            const message: Message = {
+                room,
+                username,
+                message: text,
+                createdAt: new Date(),
+                color: userColor ? userColor.userColor : 'black'
+            }
+    
+            messages.push(message);
+            //Enviar para usuarios da sala
+            io.to(room).emit("message", message);
         }
-
-        messages.push(message);
-        //Enviar para usuarios da sala
-        io.to(room).emit("message", message);
     });
 });
 
