@@ -50,7 +50,11 @@ io.on("connection", socket => {
         const { room, username, message: text } = response;
 
         if(text === "/clear-all"){
-            messages = [];
+            messages.map((message, index) => {
+                if(message.room === room){
+                   delete messages[index];
+                }
+            });
         }else {
             const userColor = users.find(user => user.username === username)
 
